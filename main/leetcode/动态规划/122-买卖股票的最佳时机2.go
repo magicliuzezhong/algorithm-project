@@ -18,7 +18,9 @@ func main() {
 	//var arr = []int{3, 2, 6, 5, 0, 3}
 	var arr = []int{1, 9, 6, 9, 1, 7, 1, 1, 5, 9, 9, 9}
 	var result = maxProfit(arr)
+	var result1 = maxProfitDp(arr)
 	fmt.Println(result)
+	fmt.Println(result1)
 }
 
 //
@@ -35,6 +37,26 @@ func maxProfit(prices []int) int {
 		}
 	}
 	return maxVal
+}
+
+func maxProfitDp(prices []int) int {
+	var numLen = len(prices)
+	// dp[i][0] 持有股票
+	// dp[i][1] 不持有股票
+
+	// dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] - prices[i])
+	// dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] + prices[i])
+	var dp = make([][]int, numLen)
+	for i := 0; i < numLen; i++ {
+		dp[i] = make([]int, 2)
+	}
+	dp[0][0] = -prices[0]
+	dp[0][1] = 0
+	for i := 1; i < numLen; i++ {
+		dp[i][0] = maxProfitChange(dp[i-1][0], dp[i-1][1]-prices[i])
+		dp[i][1] = maxProfitChange(dp[i-1][1], dp[i-1][0]+prices[i])
+	}
+	return dp[numLen-1][1]
 }
 
 //
@@ -66,4 +88,11 @@ func maxProfitBak(prices []int) int {
 		}
 	}
 	return maxVal
+}
+
+func maxProfitChange(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
