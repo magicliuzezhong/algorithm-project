@@ -38,9 +38,36 @@ func main() {
 
 	var result = minPathSum(grid)
 	fmt.Println(result)
+	//var result1 = minPathSum1(grid)
+	//fmt.Println(result1)
 }
 
+//
+// minPathSum
+// 虽然说之前做过一次了，再做一次也无妨
+//
 func minPathSum(grid [][]int) int {
+	var yLen = len(grid)
+	var xLen = len(grid[0])
+	for i := 1; i < yLen; i++ {
+		grid[i][0] += grid[i-1][0]
+	}
+	for i := 1; i < xLen; i++ {
+		grid[0][i] += grid[0][i-1]
+	}
+	for i := 1; i < yLen; i++ {
+		for j := 1; j < xLen; j++ {
+			if grid[i-1][j] > grid[i][j-1] {
+				grid[i][j] += grid[i][j-1]
+			} else {
+				grid[i][j] += grid[i-1][j]
+			}
+		}
+	}
+	return grid[yLen-1][xLen-1]
+}
+
+func minPathSum1(grid [][]int) int {
 	var xLen = len(grid)
 	var yLen = len(grid[0])
 	var dp = make([][]int, xLen)
