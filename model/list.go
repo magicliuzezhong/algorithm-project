@@ -6,7 +6,16 @@
 //
 package model
 
+import "fmt"
+
 type ListNode struct {
 	Val  int
 	Next *ListNode
+}
+
+func PrintListNode(head *ListNode) {
+	for head != nil {
+		fmt.Print(head.Val, " ")
+		head = head.Next
+	}
 }
