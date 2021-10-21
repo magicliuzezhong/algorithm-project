@@ -17,9 +17,10 @@ func main() {
 	fmt.Println(result)
 }
 
-var res = make([][]string, 0)
+var res [][]string
 
 func solveNQueens(n int) [][]string {
+	res = make([][]string, 0)
 	var queue = make([]int, n)
 	var columns = make(map[int]bool)
 	var left = make(map[int]bool)
